@@ -1,0 +1,7 @@
+Dependencias:
+    *pode usar outro bundlle  para produção (Babbel ou outro)
+    -D typescript sucrase (esse sucrase ele trasnpila codigo )
+
+
+    script para rodar:
+        sucrase-node src/archive.ts 
