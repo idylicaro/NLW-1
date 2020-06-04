@@ -1,0 +1,13 @@
+intalar o Expo CLI - npm i -g expo-cli
+
+no react native , usa se os elementos importando da propria biblioteca
+
+
+*Lembrar das rotas de get que estavam em localhost agora vai tar no ip da maquina , para poder testar no cell
+
+*para trabalhar com a passagem de dados entre rotas usa se useRoute. (obs: n sei dizes se com os outros tipos de navegação seja da msm forma)
+
+
+algo como as nome_Interface , vc diz ao typescript que tal objeto ele é de X tipo...
+
+DeepLinks
