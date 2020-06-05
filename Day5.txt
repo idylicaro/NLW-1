@@ -1,7 +1,0 @@
-Envio de arquivos com o multer
-
-*Lembrar da importancia da serialização,
-*Lembrar da automatização de mudanças de ip.
-
-Validação no front end com yup.
-Validação no backend celebrate.(integra mt bem com express)
