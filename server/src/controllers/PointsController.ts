@@ -1,5 +1,7 @@
 import {Request, Response} from 'express';
 import knex from '../database/connection';
+
+
 class PointsController{
     async create(request:Request,response:Response){
         const {
@@ -15,7 +17,7 @@ class PointsController{
         const trx = await knex.transaction();
         // esse modo de retorna o id acho que so é  para pg , se for usar outro sdbc procurar na doc.
         const point = {
-            image: 'https://images.unsplash.com/photo-1475275083424-b4ff81625b60?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60',
+            image: request.file.filename,
             name,
             email,
             whatsapp,
@@ -25,7 +27,11 @@ class PointsController{
             uf,
         };
         const [id] = await trx('points').insert(point).returning('id');
-        const pointItems = items.map((item_id: number) =>{
+
+        const pointItems = items
+        .split(',')
+        .map((item:string) => Number(item.trim()))
+        .map((item_id: number) =>{
             return{
                 item_id,
                 point_id: id
@@ -54,7 +60,13 @@ class PointsController{
             .join('point_items','items.id', '=', 'point_items.item_id')
             .where('point_items.point_id', id)
             .select('title');
-        return response.json({point,items});
+
+            const serializedPoint = {
+                    ...point,
+                    image_url: `http://192.168.1.4:3333/uploads/marketplaces/${point.image}`,
+            };
+
+        return response.json({point: serializedPoint,items});
     }
 
     async index(request:Request,response:Response){
@@ -71,7 +83,15 @@ class PointsController{
             .distinct()
             .select('points.*');
         
-        return response.json(points);
+        const serializedPoints = points.map(point => {
+            return{
+                ...point,
+                image_url: `http://192.168.1.4:3333/uploads/marketplaces/${point.image}`,
+            };
+        });
+
+
+        return response.json(serializedPoints);
     }
 }
 
